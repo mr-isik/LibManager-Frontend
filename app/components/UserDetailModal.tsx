@@ -26,7 +26,6 @@ import {
   IconPencil,
   IconHistory,
   IconBook,
-  IconBookOff,
   IconCheck,
   IconX,
   IconChartBar,

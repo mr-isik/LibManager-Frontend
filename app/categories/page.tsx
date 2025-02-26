@@ -10,7 +10,6 @@ import {
   ActionIcon,
   Menu,
   Text,
-  Paper,
   SimpleGrid,
   Progress,
   Card,
