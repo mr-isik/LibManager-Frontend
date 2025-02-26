@@ -47,11 +47,21 @@ interface BookData {
   lastBorrowed?: Date;
   edition: number;
   description: string;
-  borrowHistory: Array<{
+  publisher: string;
+  publishYear: number;
+  language: string;
+  totalCopies: number;
+  availableCopies: number;
+  loanHistory: Array<{
     id: number;
-    user: string;
+    user: {
+      id: number;
+      first_name: string;
+      second_name: string;
+    };
     borrowedAt: Date;
     returnedAt?: Date;
+    isOverdue: boolean;
   }>;
 }
 
@@ -68,18 +78,33 @@ const mockData: BookData[] = [
     edition: 5,
     description:
       'Distopik bir gelecekte geçen, gözetim toplumu ve totaliter rejimi eleştiren bir başyapıt.',
-    borrowHistory: [
+    publisher: 'Can Yayınları',
+    publishYear: 1949,
+    language: 'Türkçe',
+    totalCopies: 10,
+    availableCopies: 10,
+    loanHistory: [
       {
         id: 1,
-        user: 'Ahmet Yılmaz',
+        user: {
+          id: 1,
+          first_name: 'Ahmet',
+          second_name: 'Yılmaz',
+        },
         borrowedAt: new Date('2024-01-15'),
         returnedAt: new Date('2024-02-01'),
+        isOverdue: false,
       },
       {
         id: 2,
-        user: 'Ayşe Kaya',
+        user: {
+          id: 2,
+          first_name: 'Ayşe',
+          second_name: 'Kaya',
+        },
         borrowedAt: new Date('2024-02-05'),
         returnedAt: new Date('2024-02-20'),
+        isOverdue: false,
       },
     ],
   },
@@ -95,11 +120,21 @@ const mockData: BookData[] = [
     edition: 3,
     description:
       'Psikolojik bir gerilim romanı. Suç, vicdan ve ahlak kavramlarını derinlemesine işleyen bir klasik.',
-    borrowHistory: [
+    publisher: 'İletişim Yayınları',
+    publishYear: 1866,
+    language: 'Türkçe',
+    totalCopies: 5,
+    availableCopies: 5,
+    loanHistory: [
       {
         id: 3,
-        user: 'Mehmet Demir',
+        user: {
+          id: 3,
+          first_name: 'Mehmet',
+          second_name: 'Demir',
+        },
         borrowedAt: new Date('2024-02-25'),
+        isOverdue: false,
       },
     ],
   },
@@ -114,12 +149,22 @@ const mockData: BookData[] = [
     edition: 2,
     description:
       'Bir sabah böceğe dönüşen Gregor Samsa\'nın hikayesi. Modern edebiyatın en önemli eserlerinden.',
-    borrowHistory: [
+    publisher: 'İletişim Yayınları',
+    publishYear: 1915,
+    language: 'Türkçe',
+    totalCopies: 3,
+    availableCopies: 3,
+    loanHistory: [
       {
         id: 4,
-        user: 'Zeynep Çelik',
+        user: {
+          id: 4,
+          first_name: 'Zeynep',
+          second_name: 'Çelik',
+        },
         borrowedAt: new Date('2024-01-10'),
         returnedAt: new Date('2024-01-25'),
+        isOverdue: false,
       },
     ],
   },
@@ -159,6 +204,30 @@ const stats = [
     value: 'Dönüşüm',
     color: 'red',
     icon: IconArrowDown,
+  },
+];
+
+const mockUsers = [
+  {
+    id: 1,
+    first_name: 'Ahmet',
+    second_name: 'Yılmaz',
+    email: 'ahmet@example.com',
+    active_loans: 2,
+  },
+  {
+    id: 2,
+    first_name: 'Ayşe',
+    second_name: 'Kaya',
+    email: 'ayse@example.com',
+    active_loans: 1,
+  },
+  {
+    id: 3,
+    first_name: 'Mehmet',
+    second_name: 'Demir',
+    email: 'mehmet@example.com',
+    active_loans: 0,
   },
 ];
 
@@ -322,6 +391,7 @@ export default function BooksPage() {
           opened={!!selectedBook}
           onClose={() => setSelectedBook(null)}
           book={selectedBook}
+          users={mockUsers}
         />
       )}
     </DashboardLayout>
